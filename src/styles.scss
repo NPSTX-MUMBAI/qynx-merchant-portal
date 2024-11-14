@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// @import "../../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.variable.css";
+
+html {
+  --ant-primary-color: var(--primary-color);
+  --ant-primary-color-hover: var(--primary-color-hover);
+  --ant-primary-color-active: var(--primary-color-active);
+  --ant-primary-color-outline: var(--primary-color-outline);
+  --ant-primary-1: var(--primary-1);
+  --ant-primary-2: var(--primary-2);
+  --ant-primary-3: var(--primary-3);
+  --ant-primary-4: var(--primary-4);
+  --ant-primary-5: var(--primary-5);
+  --ant-primary-6: var(--primary-6);
+  --ant-primary-7: var(--primary-7);
+}
+
+ngx-otp-input {
+  .ngx-otp-input-form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+.ngx-otp-input-box {
+  width: 42px !important;
+  height: 40px !important;
+}
+
+.ant-layout-header {
+  @apply bg-npst_header_color;
+}
+
+.ant-menu {
+  @apply bg-npst_sidemenu_color;
+}
+
+.ant-layout {
+  @apply bg-npst_background_color;
+}
+
+.ant-layout-sider {
+  @apply bg-npst_sidemenu_color;
+}
+
+.active {
+  @apply bg-npst_header_color;
+  @apply text-npst_text_color;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  @apply bg-npst_header_color;
+  @apply text-npst_text_color;
+}
+
+// .ant-btn {
+//   @apply text-npst_text_color;
+// }
+
+// .ant-form-item-explain-error {
+//   @apply text-npst_error_color;
+// }

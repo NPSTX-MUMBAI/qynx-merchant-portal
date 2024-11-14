@@ -1,0 +1,21 @@
+<app-data-table
+  ngSkipHydration
+  [headerList]="header"
+  [tableConfig]="tableConfig"
+  [dataList]="dataList"
+  (actionTrigger)="functionHandler($event.action, $event.data)"
+></app-data-table>
+
+<ng-template #templateRef>
+  <form [formGroup]="remarkForm">
+    <label>Remark <span class="text-npst-support-color-red">*</span></label>
+    <nz-form-control nzErrorTip="Remark is Required">
+      <textarea
+        formControlName="remark"
+        placeholder="Remark"
+        rows="4"
+        nz-input
+      ></textarea>
+    </nz-form-control>
+  </form>
+</ng-template>

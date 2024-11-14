@@ -1,0 +1,44 @@
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: 'red';
+}
+
+nz-header {
+  background: npst_header_color;
+  padding: 0;
+}
+
+nz-content {
+  margin: 0 16px;
+  overflow: initial;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+.inner-content {
+  padding: 1rem;
+  background: #fff;
+}
+
+.sidemenu {
+  height: calc(82.7vh);
+}
+
+.ant-menu-inline {
+  border: none;
+}
+
+.ant-menu-vertical {
+  border: none;
+}
+
+

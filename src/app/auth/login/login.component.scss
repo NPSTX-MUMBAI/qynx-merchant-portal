@@ -1,0 +1,58 @@
+.form-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-logo {
+  text-align: center;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  /* Space between image and input fields */
+}
+
+.form-logo img {
+  max-width: 100px; /* Adjust width as necessary */
+  height: auto;
+}
+
+.login-form {
+  max-width: 310px;
+  width: 100%;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.login-form-margin {
+  margin-bottom: 16px;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+//  .ngx-otp-input-form {
+//   display: flex;
+//   justify-content: space-around;
+//   margin: 40px;
+// }
+
+// :host ::ng-deep .ngx-otp-input-box[_ngcontent-ng-c119503417] {
+//   width: 30px;
+//   height: 35px;
+//   padding: 0.5rem;
+//   font-size: 1.5rem;
+//   text-align: center;
+//   border: 1px solid #c4c4c4;
+//   border-radius: 0.5rem;
+//   outline: none;
+// }

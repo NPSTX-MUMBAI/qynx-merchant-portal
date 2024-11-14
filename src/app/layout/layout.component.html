@@ -1,0 +1,152 @@
+<nz-layout class="h-full">
+  <nz-sider
+    [nzWidth]="250"
+    nzCollapsible
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+    class="shadow-xl"
+  >
+    <div class="flex justify-center p-4">
+      <img [src]="!isCollapsed ? appLogo : npstTlogo" class="h-12" />
+    </div>
+
+    <div
+      class="overflow-y-auto sidemenu"
+      style="scrollbar-width: none; -ms-overflow-style: none"
+    >
+      <ul nz-menu nzMode="inline">
+        <ng-container *ngFor="let item of jsonData">
+          <ng-container [ngSwitch]="item.type">
+            <!-- For Submenu -->
+            <ng-container *ngSwitchCase="'submenu'">
+              <li nz-submenu [nzTitle]="item.label" [nzIcon]="item.icon">
+                <ul>
+                  <ng-container *ngFor="let subItem of item.children">
+                    <ng-container [ngSwitch]="subItem.type">
+                      <!-- Nested Submenu -->
+                      <ng-container *ngSwitchCase="'submenu'">
+                        <li
+                          nz-submenu
+                          [nzTitle]="subItem.label"
+                          [nzIcon]="subItem.icon"
+                        >
+                          <ul>
+                            <ng-container
+                              *ngFor="let subsubItem of subItem.children"
+                            >
+                              <li
+                                nz-menu-item
+                                routerLinkActive="active"
+                                [routerLink]="subsubItem.path"
+                              >
+                                <i
+                                  nz-icon
+                                  [nzType]="subsubItem.icon"
+                                  nzTheme="outline"
+                                ></i>
+                                <span>{{ subsubItem.label }}</span>
+                              </li>
+                            </ng-container>
+                          </ul>
+                        </li>
+                      </ng-container>
+                      <!-- Submenu Item -->
+                      <ng-container *ngSwitchDefault>
+                        <li
+                          nz-menu-item
+                          routerLinkActive="active"
+                          [routerLink]="subItem.path"
+                        >
+                          <i
+                            nz-icon
+                            [nzType]="subItem.icon"
+                            nzTheme="outline"
+                          ></i>
+                          <span>{{ subItem.label }}</span>
+                        </li>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </ul>
+              </li>
+            </ng-container>
+            <!-- For Menu Item -->
+            <ng-container *ngSwitchDefault>
+              <li
+                nz-menu-item
+                [routerLink]="item.path"
+                routerLinkActive="active"
+              >
+                <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>
+                <span>{{ item.label }}</span>
+              </li>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ul>
+    </div>
+
+    <div
+      class="flex items-center gap-3 pl-3 pb-2 pt-1.5 bg-npst_powerdby_color_dark_blue text-npst-header-icon-white"
+    >
+      <img class="h-8 pt-1" [src]="npstTlogo" />
+      <p class="pt-2 font-ubuntu">Powered by NPST</p>
+    </div>
+  </nz-sider>
+  <nz-layout class="right-layout">
+    <nz-header class="flex justify-between">
+      <span
+        class="trigger text-npst-header-icon-white"
+        nz-icon
+        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"
+      ></span>
+
+      <span
+        class="trigger text-npst-header-icon-white"
+        nz-icon
+        nzType="profile"
+        nz-dropdown
+        [nzDropdownMenu]="menu"
+        [nzTrigger]="'click'"
+        nzTheme="outline"
+      ></span>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu nzMode="inline">
+          <li nz-menu-item routerLink="profile">
+            <i nz-icon nzType="user" nzTheme="outline"></i>
+            <span class="pl-2">My Profile</span>
+          </li>
+          <li nz-menu-item routerLink="reset-passcode">
+            <i nz-icon nzType="eye" nzTheme="outline"></i>
+            <span class="pl-2">Reset Passcode</span>
+          </li>
+          <li nz-menu-item routerLink="user-profiles">
+            <i nz-icon nzType="usergroup-add" nzTheme="outline"></i>
+            <span class="pl-2">User Profiles</span>
+          </li>
+          <li nz-menu-item (click)="onLogout()">
+            <i nz-icon nzType="logout" nzTheme="outline"></i>
+            <span class="pl-2">Logout</span>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    </nz-header>
+    <nz-content>
+      <nz-breadcrumb [nzAutoGenerate]="true">
+        <nz-breadcrumb-item>Dashboard</nz-breadcrumb-item>
+      </nz-breadcrumb>
+
+      <div
+        class="inner-content h-full overflow-y-auto"
+        style="scrollbar-width: 1px; -ms-overflow-style: none"
+      >
+        <!-- <nz-empty [nzNotFoundContent]="null"></nz-empty> -->
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <nz-footer class="invisible"
+      >Ant Design ©2020 Implement By Angular</nz-footer
+    >
+  </nz-layout>
+</nz-layout>

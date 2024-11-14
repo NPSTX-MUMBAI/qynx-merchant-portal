@@ -1,0 +1,56 @@
+<div class="form-container bg-npst-primary-color">
+  <div class="otp-form">
+    <form nz-form [formGroup]="otpForm">
+      <!-- Add the image above the input fields (optional) -->
+      <div class="flex justify-center pb-7">
+        <img class="h-14" [src]="npstLogo" alt="Logo" />
+      </div>
+
+      <!-- Mobile Number Input -->
+      <div div *ngIf="!otpSent">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input your mobile number!">
+            <nz-input-group>
+              <input
+                class="w-full"
+                type="text"
+                nz-input
+                formControlName="mobileNo"
+                placeholder="Mobile No"
+                maxlength="10"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- Send OTP Button -->
+        <button
+          nz-button
+          class="otp-form-button bg-npst-primary-color"
+          [nzType]="'primary'"
+          (click)="sendOTP()"
+          [disabled]="otpForm.controls['mobileNo'].invalid"
+        >
+          Send OTP
+        </button>
+      </div>
+    </form>
+    <!-- OTP Input (visible after OTP is sent) -->
+    <div *ngIf="otpSent" class="otp-section">
+      <ngx-otp-input
+        #otpInput
+        (otpComplete)="changeOtp($event)"
+        [options]="otpOptions"
+      ></ngx-otp-input>
+
+      <button
+        nz-button
+        class="otp-form-button bg-npst-primary-color"
+        [nzType]="'primary'"
+        (click)="verifyOTP()"
+      >
+        Verify OTP
+      </button>
+    </div>
+  </div>
+</div>
