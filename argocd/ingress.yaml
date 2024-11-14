@@ -1,0 +1,53 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: qynx-merchant-portal-cert  #name of this object
+  namespace: prod #same namespace as
+spec:
+  dnsNames:
+    - qynx-merchant-portal.timepayx.com
+  secretName: qynx-merchant-portal-tls-cert
+  issuerRef:
+    name: le-clusterissuer
+    kind: ClusterIssuer
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-buffer-connect: 300s
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+    nginx.ingress.kubernetes.io/proxy-buffering: 'on'
+    nginx.ingress.kubernetes.io/proxy-buffers-number: '8'
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    # nginx.org/server-snippets: |
+    #   location / {
+    #       proxy_set_header Host $host;
+    #   }
+  name: qynx-merchant-portal-app-rewrite
+  namespace: prod
+spec:
+  #ingressClassName: nginx
+  tls:
+  - hosts:
+    - qynx-merchant-portal.timepayx.com
+    secretName: qynx-merchant-portal-tls-cert
+  rules:
+  - host: qynx-merchant-portal.timepayx.com
+
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: qynx-merchant-portal-app-service
+            port:
+              number: 80
