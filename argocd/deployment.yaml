@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: qynx-portal
-          image: ghcr.io/npstx-mumbai/qynx-merchant-portal:0.0.3-test
+          image: ghcr.io/npstx-mumbai/qynx-merchant-portal:0.0.4-test
           imagePullPolicy: Always
           ports:
             - containerPort: 80
