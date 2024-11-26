@@ -37,10 +37,10 @@ spec:
   #ingressClassName: nginx
   tls:
   - hosts:
-    - qynx-merchant-portal.timepayx.com
-    secretName: qynx-merchant-portal-tls-cert
+    - qynx-portal.timepayx.com
+    secretName: qynx-portal-tls-cert
   rules:
-  - host: qynx-merchant-portal.timepayx.com
+  - host: qynx-portal.timepayx.com
 
     http:
       paths:
@@ -48,6 +48,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: qynx-merchant-portal-app-service
+            name: qynx-portal-app-service
             port:
               number: 80
