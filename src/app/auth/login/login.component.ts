@@ -11,7 +11,7 @@ import { NgxOtpInputComponentOptions } from 'ngx-otp-input';
 })
 export class LoginComponent {
   validateForm: FormGroup;
-  npstLogo = NpstImage.appLogo;
+  npstLogo = NpstImage.qynxLogo;
   otpValue: any;
   disabled = false;
   otpOptions: NgxOtpInputComponentOptions = {

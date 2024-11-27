@@ -37,8 +37,8 @@ export class AppComponent implements OnInit {
   // };
 
   jsonStyle = {
-    primaryColor: '#98DED9',
-    navHeaderColor: '#98DED9',
+    primaryColor: '#48CFCB',
+    navHeaderColor: '#424242',
     sidemenuColor: '#ffffff',
     sidemenuTextColor: '#ffffff',
   };

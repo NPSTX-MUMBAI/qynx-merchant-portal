@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
   styleUrl: './reset-password.component.scss',
 })
 export class ResetPasswordComponent {
-  npstLogo = NpstImage.appLogo;
+  npstLogo = NpstImage.qynxLogo;
   validateForm: FormGroup<{
     newPasscode: FormControl<string>;
     confirm: FormControl<string>;

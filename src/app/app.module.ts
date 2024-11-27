@@ -15,7 +15,8 @@ import { DataTableComponent } from './shared/components/data-table/data-table.co
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_CONFIG, NzConfig } from 'ng-zorro-antd/core/config';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
+
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -36,7 +37,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     provideNzI18n(en_US),
     NzModalService,
     NzMessageService,
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
   ],
   bootstrap: [AppComponent],
 })

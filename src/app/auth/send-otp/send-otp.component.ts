@@ -16,7 +16,7 @@ export class SendOtpComponent implements OnInit {
   @ViewChild('otpInput') otpInput: NgxOtpInputComponent;
   otpSent = false;
   otpForm: FormGroup;
-  npstLogo = NpstImage.appLogo;
+  npstLogo = NpstImage.qynxLogo;
   otpValue: any;
   otpOptions: NgxOtpInputComponentOptions = {
     otpLength: 4,

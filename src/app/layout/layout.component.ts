@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
 export class LayoutComponent implements OnInit {
   isCollapsed = false;
   jsonData: any = Menu.routerlink.admin;
-  appLogo = NpstImage.appLogo;
-  npstTlogo = NpstImage.npstTlogo;
+  appLogo = NpstImage.qynxLogo;
+  npstTlogo = NpstImage.appLogo;
 
   constructor(
     private route: Router,

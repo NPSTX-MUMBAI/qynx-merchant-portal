@@ -53,6 +53,7 @@ export class DashboardComponent {
       position: 'right',
       offsetY: 40,
     },
+    colors: ['#424242', '#48CFCB', '#229799'],
     fill: {
       opacity: 1,
     },
@@ -80,7 +81,7 @@ export class DashboardComponent {
         },
       },
     ],
-    colors: ['#1A55E3', '#00D284', '#FF0854'],
+    colors: ['#424242', '#48CFCB', '#229799'],
     tooltip: {
       enabled: false,
     },
