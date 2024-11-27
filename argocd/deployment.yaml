@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qynx-portal
+  name: qynx-bank-portal
   namespace: prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: qynx-portal
-      role: qynx-portal
+      app: qynx-bank-portal
+      role: qynx-bank-portal
   template:
     metadata:
       labels:
-        app: qynx-portal
-        role: qynx-portal
+        app: qynx-bank-portal
+        role: qynx-bank-portal
     spec:
       containers:
-        - name: qynx-portal
+        - name: qynx-bank-portal
           image: ghcr.io/npstx-mumbai/qynx-merchant-portal:0.0.4-test
           imagePullPolicy: Always
           ports:

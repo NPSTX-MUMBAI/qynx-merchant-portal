@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: qynx-portal-app-service
+  name: qynx-bank-portal-app-service
   namespace: prod
 spec:
   selector:
-    app: qynx-portal
+    app: qynx-bank-portal
   type: ClusterIP
   ports:
   - protocol: TCP
