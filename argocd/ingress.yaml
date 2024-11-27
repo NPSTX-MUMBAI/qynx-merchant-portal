@@ -1,12 +1,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: qynx-bank-portal-cert  #name of this object
+  name: qynx-merchant-portal-cert  #name of this object
   namespace: prod #same namespace as
 spec:
   dnsNames:
-    - qynx-bank-portal.timepayx.com
-  secretName: qynx-bank-portal-tls-cert
+    - qynx-merchant-portal.timepayx.com
+  secretName: qynx-merchant-portal-tls-cert
   issuerRef:
     name: le-clusterissuer
     kind: ClusterIssuer
@@ -31,7 +31,7 @@ metadata:
     #   location / {
     #       proxy_set_header Host $host;
     #   }
-  name: qynx--bank-portal-app-rewrite
+  name: qynx-merchant-portal-app-rewrite
   namespace: prod
 spec:
   #ingressClassName: nginx
