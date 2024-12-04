@@ -1,0 +1,170 @@
+<nz-card [nzTitle]="nzTiltle">
+  <div class="flex justify-around">
+    <app-apex-chart [chartOp]="donutChart"></app-apex-chart>
+    <div>
+      <nz-divider nzType="vertical" class="h-full"></nz-divider>
+    </div>
+
+    <div class="w-full">
+      <nz-descriptions nzBordered>
+        <nz-descriptions-item nzTitle="Total Devices"
+          >1000</nz-descriptions-item
+        >
+      </nz-descriptions>
+      <nz-descriptions nzBordered>
+        <nz-descriptions-item nzTitle="Assigned Devices"
+          >760</nz-descriptions-item
+        >
+      </nz-descriptions>
+      <nz-descriptions nzBordered>
+        <nz-descriptions-item nzTitle="Idle Devices">240</nz-descriptions-item>
+      </nz-descriptions>
+      <nz-descriptions nzBordered>
+        <nz-descriptions-item nzTitle="Branch">Mumbai</nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+  </div>
+</nz-card>
+<div>
+  <nz-card nzTitle="Transaction Details">
+    <app-apex-chart [chartOp]="transctionChart"></app-apex-chart>
+  </nz-card>
+</div>
+
+<ng-template #nzTiltle>
+  <!-- 
+  <div class="flex justify-between gap-3">
+    <div>Inventory Details</div>
+
+    <div class="flex">
+      <div>
+        <nz-select
+          [(ngModel)]="selectedDate"
+          (ngModelChange)="dateFilterChnage($event)"
+          nzPlaceHolder="Date"
+         style="width: 100%;"
+        >
+          <nz-option nzLabel="Today" nzValue="today"></nz-option>
+          <nz-option nzLabel="Yesterday" nzValue="yesterday"></nz-option>
+          <nz-option nzLabel="This week" nzValue="thisWeek"></nz-option>
+          <nz-option nzLabel="This Month" nzValue="thisMonth"></nz-option>
+          <nz-option
+            nzLabel="Custom – From & To Date"
+            nzValue="custom"
+          ></nz-option>
+        </nz-select>
+      </div>
+      <div *ngIf="showCustomDate">
+        <ng-container>
+          <nz-range-picker class="w-full"></nz-range-picker>
+        </ng-container>
+      </div>
+      <div>
+        <nz-select
+          nzShowSearch
+          nzAllowClear
+          nzPlaceHolder="Branch Name"
+          [(ngModel)]="selectBranch"
+          class="w-full"
+        >
+          <nz-option nzCustomContent nzLabel="Thane" nzValue="Thane">
+            Thane
+          </nz-option>
+          <nz-option nzCustomContent nzLabel="Panvel" nzValue="Panvel">
+            Panvel
+          </nz-option>
+          <nz-option nzCustomContent nzLabel="Mumbai" nzValue="Mumbai">
+            Mumbai
+          </nz-option>
+          <nz-option
+            nzCustomContent
+            nzLabel="Navi Mumbai"
+            nzValue="Navi Mumbai"
+          >
+            Navi Mumbai
+          </nz-option>
+          <nz-option nzCustomContent nzLabel="Nerul" nzValue="Nerul">
+            Nerul
+          </nz-option>
+          <nz-option nzCustomContent nzLabel="Kurla" nzValue="Kurla">
+            Kurla
+          </nz-option>
+        </nz-select>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="grid grid-cols-2 gap-4 items-center">
+    <!-- Inventory Details Text -->
+    <div>Inventory Details</div>
+
+    <!-- Filters Section -->
+    <div class="flex gap-4 items-center w-full">
+      <!-- Date Filter -->
+      <div class="w-1/3">
+        <nz-select
+          [(ngModel)]="selectedDate"
+          (ngModelChange)="dateFilterChnage($event)"
+          nzPlaceHolder="Date"
+          style="width: 100%"
+        >
+          <nz-option nzLabel="Today" nzValue="today"></nz-option>
+          <nz-option nzLabel="Yesterday" nzValue="yesterday"></nz-option>
+          <nz-option nzLabel="This week" nzValue="thisWeek"></nz-option>
+          <nz-option nzLabel="This Month" nzValue="thisMonth"></nz-option>
+          <nz-option
+            nzLabel="Custom – From & To Date"
+            nzValue="custom"
+          ></nz-option>
+        </nz-select>
+      </div>
+
+      <!-- Custom Date Range Picker -->
+      <ng-container *ngIf="showCustomDate">
+        <div class="w-1/2">
+          <nz-range-picker class="w-full"></nz-range-picker>
+        </div>
+      </ng-container>
+
+      <!-- Branch Name Filter -->
+      <div class="w-1/3">
+        <nz-select
+          nzShowSearch
+          nzAllowClear
+          nzPlaceHolder="Branch Name"
+          [(ngModel)]="selectBranch"
+          class="w-full"
+        >
+          <nz-option nzCustomContent nzLabel="Thane" nzValue="Thane">
+            Thane
+          </nz-option>
+          <nz-option nzCustomContent nzLabel="Panvel" nzValue="Panvel">
+            Panvel
+          </nz-option>
+          <nz-option nzCustomContent nzLabel="Mumbai" nzValue="Mumbai">
+            Mumbai
+          </nz-option>
+          <nz-option
+            nzCustomContent
+            nzLabel="Navi Mumbai"
+            nzValue="Navi Mumbai"
+          >
+            Navi Mumbai
+          </nz-option>
+          <nz-option nzCustomContent nzLabel="Nerul" nzValue="Nerul">
+            Nerul
+          </nz-option>
+          <nz-option nzCustomContent nzLabel="Kurla" nzValue="Kurla">
+            Kurla
+          </nz-option>
+        </nz-select>
+      </div>
+
+      <!-- Search Button -->
+
+      <button nzType="primary" nz-button>
+        <span nz-icon nzType="search" nzTheme="outline"></span>
+      </button>
+    </div>
+  </div>
+</ng-template>

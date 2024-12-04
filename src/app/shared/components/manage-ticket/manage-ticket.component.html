@@ -1,0 +1,80 @@
+<nz-tabset>
+  <nz-tab nzTitle="FAQ">
+    <app-faqs></app-faqs>
+  </nz-tab>
+  <nz-tab nzTitle="Ticket Management">
+    <app-data-table
+      ngSkipHydration
+      [headerList]="header"
+      [tableConfig]="tableConfig"
+      [dataList]="listOfTicket"
+      (actionTrigger)="functionHandler($event.action)"
+    ></app-data-table>
+  </nz-tab>
+</nz-tabset>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Create New Ticket"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzStyle]="{ display: 'flex', 'justify-content': 'center' }"
+  [nzFooter]="null"
+>
+  <ng-container *nzModalContent>
+    <div class="flex justify-center">
+      <nz-card style="width: 400px">
+        <form [formGroup]="ticketForm" (ngSubmit)="submitTicket()">
+          <nz-form-control nzErrorTip="Please Select a Catagory!">
+            <nz-select
+              class="w-full"
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Select a Catagory"
+              formControlName="catagory"
+            >
+              <nz-option nzLabel="catagory-1" nzValue="jack"></nz-option>
+              <nz-option nzLabel="catagory-2" nzValue="lucy"></nz-option>
+              <nz-option nzLabel="catagory-3" nzValue="tom"></nz-option>
+              <nz-option nzLabel="catagory-4" nzValue="tom"></nz-option>
+              <nz-option nzLabel="catagory-5" nzValue="tom"></nz-option>
+            </nz-select>
+          </nz-form-control>
+
+          <div class="w-full pt-5">
+            <nz-form-control nzErrorTip="Please Select a Sub-catagory!">
+              <nz-select
+                class="w-full"
+                nzShowSearch
+                nzAllowClear
+                nzPlaceHolder="Select a Sub-catagory"
+                formControlName="subCatagory"
+              >
+                <nz-option nzLabel="sub-catagory-1" nzValue="jack"></nz-option>
+                <nz-option nzLabel="sub-catagory-2" nzValue="lucy"></nz-option>
+                <nz-option nzLabel="sub-catagory-3" nzValue="tom"></nz-option>
+                <nz-option nzLabel="sub-catagory-4" nzValue="tom"></nz-option>
+                <nz-option nzLabel="sub-catagory-5" nzValue="tom"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </div>
+
+          <div class="pt-4">
+            <nz-form-control nzErrorTip="Please Enter a Remark!">
+              <label>Remark</label>
+              <nz-textarea-count [nzMaxCharacterCount]="100">
+                <textarea rows="4" formControlName="remark" nz-input></textarea>
+              </nz-textarea-count>
+            </nz-form-control>
+          </div>
+
+          <div class="w-full flex justify-center pt-5">
+            <button nz-button class="bg-npst-primary-color" nzType="primary">
+              submit Ticket
+            </button>
+          </div>
+        </form>
+      </nz-card>
+    </div>
+  </ng-container>
+</nz-modal>

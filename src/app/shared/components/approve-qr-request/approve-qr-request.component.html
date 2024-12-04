@@ -1,0 +1,7 @@
+<app-data-table
+  ngSkipHydration
+  [headerList]="header"
+  (actionTrigger)="functionHandler($event.action, $event.data)"
+  [dataList]="dataList"
+  [tableConfig]="tableConfig"
+></app-data-table>

@@ -1,0 +1,49 @@
+<div class="flex-col justify-center items-center">
+  <nz-upload
+    nzType="drag"
+    [nzFileType]="'text/csv'"
+    [nzCustomRequest]="customRequest"
+    (nzChange)="handleChange($event)"
+    [nzAccept]="'.csv'"
+    [nzDisabled]="uploadDisable"
+  >
+    <p class="ant-upload-drag-icon">
+      <span nz-icon nzType="cloud-upload"></span>
+    </p>
+    <p class="ant-upload-text">Click or drag file to this area to upload</p>
+    <p class="ant-upload-hint">Support for a single upload</p>
+  </nz-upload>
+</div>
+
+<div *ngIf="errorObject.length > 0">
+  <app-data-table
+    ngSkipHydration
+    [headerList]="errroHeader"
+    [tableConfig]="tableConfig"
+    [dataList]="errorObject"
+  ></app-data-table>
+</div>
+
+<div class="flex align-middle justify-between">
+  <button
+    nz-button
+    [nzType]="'primary'"
+    [nzLoading]="uploading"
+    (click)="handleUpload()"
+    [disabled]="fileList.length === 0 || errorObject.length != 0"
+    style="margin-top: 16px"
+  >
+    {{ uploading ? "Uploading" : "Start Upload" }}
+  </button>
+
+  <div
+    class="w-fit mt-5 px-3 py-1 space-x-1 border border-dotted rounded-sm flex justify-start items-center border-slate-600"
+  >
+    <span nz-icon nzType="link" nzTheme="outline"></span>
+    <a [href]="sampleFile" download="sample_vpa_file.xlsx" class="text-xs"
+      >Click Here to Download Sample File</a
+    >
+  </div>
+</div>
+
+

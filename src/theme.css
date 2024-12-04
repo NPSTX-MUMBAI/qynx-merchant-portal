@@ -1,0 +1,17 @@
+/* @import "~ng-zorro-antd/ng-zorro-antd.css"; */
+
+:root {
+  --primary-color: #a53d1d; /* Custom Primary Color */
+  --link-color: #1da57a; /* Custom Link Color */
+  --success-color: #52c41a; /* Success State Color */
+  --warning-color: #faad14; /* Warning State Color */
+  --error-color: #f5222d; /* Error State Color */
+  --font-size-base: 14px; /* Base Font Size */
+  --heading-color: rgba(0, 0, 0, 0.85); /* Heading Color */
+  --text-color: rgba(0, 0, 0, 0.65); /* Main Text Color */
+  --text-color-secondary: rgba(0, 0, 0, 0.45); /* Secondary Text Color */
+  --disabled-color: rgba(0, 0, 0, 0.25); /* Disable State Color */
+  --border-radius-base: 4px; /* Major Border Radius */
+  --border-color-base: #d9d9d9; /* Major Border Color */
+  --box-shadow-base: 0 3px 6px rgba(0, 0, 0, 0.16); /* Base Box Shadow */
+}

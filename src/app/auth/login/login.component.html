@@ -1,0 +1,39 @@
+<div class="form-container  bg-[url('/assets/images/bgadmin.jpg')] bg-cover">
+  <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+    <div class="flex justify-center pb-7">
+      <img class="h-14" [src]="npstLogo" alt="Logo" />
+    </div>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Please input your Mobile Number!">
+        <label>Register Mobile Number</label>
+        <nz-input-group>
+          <input type="text" pattern="[6-9][0-9]{0,9}" nz-input formControlName="mobileNo" nzSize="large"
+            nzOverlayClassName="numeric-input" (input)="validateMobileNumber()"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="+91" maxlength="10" class="mt-2" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <div class="flex-col">
+      <label>Passcode</label>
+      <div class="mt-3">
+        <ngx-otp-input #otpInput (otpComplete)="otpComplete($event)" [status]="topStatusEnum.FAILED"
+          (otpChange)="otpChange($event)" [options]="otpOptions" [disabled]="disabled"></ngx-otp-input>
+      </div>
+      <div *ngIf="validateForm.get('passcode').invalid && validateForm.get('passcode').touched ">
+        <p style="color: #ff4d4f;"> Enter Passcode</p>
+      </div>
+    </div>
+    <div>
+      <a class="login-form-forgot mt-3" routerLink="/auth/otp">Forgot Passcode?</a>
+    </div>
+
+    <div nz-row class="login-form-margin mt-7">
+    </div>
+    <button nz-button nzType="primary" class="login-form-button bg-npst-primary-color login-form-margin mt-3">
+      Log in
+    </button>
+
+
+  </form>
+</div>

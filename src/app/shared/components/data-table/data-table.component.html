@@ -1,0 +1,345 @@
+<ng-template #headerTemplate>
+  <div nz-row class="gap-2">
+    <div nz-col nzSpan="8" *ngIf="tableConfig.searchTicket">
+      <div class="flex gap-3 w-full">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+          <input type="text" nz-input placeholder="Search Ticket" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+          <button nz-button nzType="primary" nzSearch>Search</button>
+        </ng-template>
+
+        <div>
+          <button nz-button (click)="raiseTicket()" nzType="primary" nzSearch>
+            New Ticket
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="tableConfig.filter" nz-col nzSpan="4">
+      <nz-select [(ngModel)]="selectSearch" (ngModelChange)="onDetailsChange($event)"
+        nzPlaceHolder="Please select an Filter" class="w-full">
+        <nz-option nzLabel="Merchant" nzValue="merchant"></nz-option>
+        <nz-option nzLabel="VPA" nzValue="vpa"></nz-option>
+        <nz-option nzLabel="Mobile Number" nzValue="mobileNo"></nz-option>
+      </nz-select>
+    </div>
+
+    <div *ngIf="tableConfig.filter" nz-col nzSpan="4">
+      <input [(ngModel)]="selectSearchValue" nz-input [placeholder]="'Search ' + selectSearch | titlecase"
+        class="w-full" (input)="restrictCharacters($event)" />
+    </div>
+
+    <div *ngIf="tableConfig.filter" nz-col nzSpan="4">
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Branch Name" [(ngModel)]="selectBranch" class="w-full">
+        <nz-option nzCustomContent nzLabel="Thane" nzValue="Thane">
+          Thane
+        </nz-option>
+        <nz-option nzCustomContent nzLabel="Panvel" nzValue="Panvel">
+          Panvel
+        </nz-option>
+        <nz-option nzCustomContent nzLabel="Mumbai" nzValue="Mumbai">
+          Mumbai
+        </nz-option>
+        <nz-option nzCustomContent nzLabel="Navi Mumbai" nzValue="Navi Mumbai">
+          Navi Mumbai
+        </nz-option>
+        <nz-option nzCustomContent nzLabel="Nerul" nzValue="Nerul">
+          Nerul
+        </nz-option>
+        <nz-option nzCustomContent nzLabel="Kurla" nzValue="Kurla">
+          Kurla
+        </nz-option>
+      </nz-select>
+    </div>
+
+    <div *ngIf="tableConfig.filter" nz-col nzSpan="4">
+      <nz-select [(ngModel)]="selectedDate" (ngModelChange)="dateFilterChnage($event)" nzPlaceHolder="Date"
+        class="w-full">
+        <nz-option nzLabel="Today" nzValue="today"></nz-option>
+        <nz-option nzLabel="Yesterday" nzValue="yesterday"></nz-option>
+        <nz-option nzLabel="This week" nzValue="thisWeek"></nz-option>
+        <nz-option nzLabel="This Month" nzValue="thisMonth"></nz-option>
+        <nz-option nzLabel="Custom – From & To Date" nzValue="custom"></nz-option>
+      </nz-select>
+    </div>
+    <div *ngIf="tableConfig.filter && showCustomDate" nz-col nzSpan="4">
+      <ng-template #datePicker>
+        <nz-range-picker class="w-full"></nz-range-picker>
+      </ng-template>
+    </div>
+
+    <div *ngIf="tableConfig.filter" nz-col nzSpan="1">
+      <button nzType="primary" class="w-full" nz-button (click)="search()">
+        <span nz-icon nzType="search" nzTheme="outline"></span>
+      </button>
+    </div>
+    <div *ngIf="tableConfig.export" nz-col nzSpan="1">
+      <ng-container>
+        <div>
+          <button nzType="primary" class="w-full" nz-button (click)="export()">
+            <span nz-icon nzType="download" nzTheme="outline"></span>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+    <div *ngIf="tableConfig.uplaodVpa" nz-col nzSpan="3">
+      <button nzType="primary" class="w-full" nz-button (click)="onUplaodVpa()">
+        Add Bulk VPA
+      </button>
+    </div>
+    <!-- <div nz-col nzSpan="6">col-6</div> -->
+  </div>
+</ng-template>
+
+<div>
+  <nz-table #dynamicTable [nzScroll]="{
+      x: scrollX,
+      y: scrollY ?? '300px'
+    }" [nzData]="listOfData" [nzTableLayout]="settingValue.tableLayout" [nzBordered]="settingValue.bordered"
+    [nzSimple]="settingValue.simple" [nzLoading]="settingValue.loading" [nzPaginationType]="settingValue.paginationType"
+    [nzPaginationPosition]="settingValue.position" [nzShowSizeChanger]="settingValue.sizeChanger"
+    [nzFrontPagination]="settingValue.pagination" [nzShowPagination]="settingValue.pagination"
+    [nzTitle]="settingValue.title ? headerTemplate : null" [nzSize]="settingValue.size"
+    [nzFooter]="settingValue.footer ? footerTemplate : null" (nzCurrentPageDataChange)="currentPageDataChange($event)">
+    <thead>
+      <tr>
+        @for(header of headerList ; track header){
+        <ng-container [ngSwitch]="header.code">
+          <ng-container *ngSwitchCase="'checkbox'">
+            <th nzWidth="60px" [(nzChecked)]="allChecked" [nzLeft]="fixedColumn" [nzIndeterminate]="indeterminate"
+              (nzCheckedChange)="checkAll($event)"></th>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <th [nzLeft]="fixedColumn">
+              {{ header.label }}
+            </th>
+          </ng-container>
+        </ng-container>
+
+        }
+      </tr>
+
+      <!-- @if (settingValue.header) {
+      <tr>
+        @if (settingValue.expandable) {
+        <th nzWidth="40px" [nzLeft]="fixedColumn"></th>
+        } @if (settingValue.checkbox) {
+        <th
+          nzWidth="60px"
+          [(nzChecked)]="allChecked"
+          [nzLeft]="fixedColumn"
+          [nzIndeterminate]="indeterminate"
+          (nzCheckedChange)="checkAll($event)"
+        ></th>
+        }
+        <th [nzLeft]="fixedColumn">Name</th>
+        <th>Age</th>
+        <th>Address</th>
+        <th [nzRight]="fixedColumn">Action</th>
+      </tr>
+      } -->
+    </thead>
+    <tbody>
+      @for (data of dynamicTable.data; track data) {
+      <tr>
+        <ng-container *ngFor="let ref of headerList">
+          <ng-container [ngSwitch]="ref.code">
+            <ng-container *ngSwitchCase="'checkbox'">
+              <td [nzLeft]="fixedColumn" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+            </ng-container>
+            <ng-container *ngSwitchCase="'action'">
+              <td [nzLeft]="fixedColumn">
+                <button nz-button nz-dropdown [nzTrigger]="'click'" [nzDropdownMenu]="menu" nzShape="circle">
+                  <span nz-icon nzType="ellipsis" nzTheme="outline"></span>
+                </button>
+
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                  <ul nz-menu>
+                    <li *ngFor="let item of ref.listOfAction" nz-menu-item (click)="menuClick(item.action, data)">
+                      <a>{{ item.label }}</a>
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+              </td>
+            </ng-container>
+            <ng-container *ngSwitchCase="'uploadedOn'">
+              <td>{{ data[ref.code] | date : "dd-mm-yyyy" }}</td>
+            </ng-container>
+            <ng-container *ngSwitchCase="'creationDate'">
+              <td>{{ data[ref.code] | date : "dd-mm-yyyy" }}</td>
+            </ng-container>
+            <ng-container *ngSwitchCase="'closureDate'">
+              <td>{{ data[ref.code] | date : "dd-mm-yyyy" }}</td>
+            </ng-container>
+            <ng-container *ngSwitchCase="'status'">
+              <td>
+                <nz-tag [nzColor]="
+                    data[ref.code] == 'success'
+                      ? 'green'
+                      : data[ref.code] == 'YES'
+                      ? 'green'
+                      : 'red'
+                  ">{{ data[ref.code] }}
+                </nz-tag>
+              </td>
+            </ng-container>
+            <ng-container *ngSwitchCase="'assignDevice'">
+              <td>
+                <nz-tag [nzColor]="
+                  data[ref.code] == 'YES'
+                      ? 'green'
+                      : 'red'
+                  ">{{ data[ref.code] }}
+                </nz-tag>
+              </td>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              <td>{{ data[ref.code] }}</td>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </tr>
+
+      }
+    </tbody>
+  </nz-table>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="false" [nzWidth]="400" [nzVisible]="visible"
+  nzTitle="Filter" [nzFooter]="footerTpl" (nzOnClose)="close()">
+  <div nz-form *nzDrawerContent>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="24">
+        <label>Serach Merchant</label>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-select [(ngModel)]="selectSearch" (ngModelChange)="onDetailsChange($event)"
+              nzPlaceHolder="Please select an Filter">
+              <nz-option nzLabel="Merchant" nzValue="merchant"></nz-option>
+              <nz-option nzLabel="VPA" nzValue="vpa"></nz-option>
+              <nz-option nzLabel="Mobile Number" nzValue="mobileNo"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    @if(showInputSerach){
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="24">
+        <label>{{ selectSearch | titlecase }}</label>
+        <nz-form-item>
+          <nz-form-control>
+            <input [(ngModel)]="selectSearchValue" nz-input placeholder="please enter Search Value" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    }
+
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="24">
+        <label>Branch Name</label>
+        <nz-form-item>
+          <nz-form-control>
+            <input [(ngModel)]="selectBranch" nz-input placeholder="Branch name" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="24">
+        <label>Date</label>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-select [(ngModel)]="selectedDate" (ngModelChange)="dateFilterChnage($event)"
+              nzPlaceHolder="Please choose the type">
+              <nz-option nzLabel="Today" nzValue="today"></nz-option>
+              <nz-option nzLabel="Yesterday" nzValue="yesterday"></nz-option>
+              <nz-option nzLabel="This week" nzValue="thisWeek"></nz-option>
+              <nz-option nzLabel="This Month" nzValue="thisMonth"></nz-option>
+              <nz-option nzLabel="Custom – From & To Date" nzValue="custom"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    @if(showCustomDate){
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="24">
+        <label>DateTime</label>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-range-picker class="w-full"></nz-range-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    }
+  </div>
+
+  <ng-template #footerTpl>
+    <div style="float: right">
+      <button nz-button style="margin-right: 8px" (click)="clearFilter()">
+        clear
+      </button>
+      <button nz-button nzType="primary" (click)="applyFilter()">Submit</button>
+    </div>
+  </ng-template>
+</nz-drawer>
+
+<ng-template #footerTemplate>
+  <!-- <div class="footer-content flex justify-center">
+
+    <div>
+      <nz-pagination
+        [nzTotal]="totalItems"
+        [(nzPageSize)]="pageSize"
+        [(nzPageIndex)]="currentPage"
+        (nzPageIndexChange)="nzPageIndexChange($event)"
+      >
+      </nz-pagination>
+    </div>
+    <div class="button">
+      <button
+        nz-button
+        class="hover:bg-npst-support-color-green hover:text-npst-header-icon-white hover:border-none border-npst-support-color-green text-npst-support-color-green"
+        (click)="onApprove()"
+      >
+        Approve
+      </button>
+      <button
+        class="hover:bg-npst-support-color-red hover:text-npst-header-icon-white hover:border-none border-npst-support-color-red text-npst-support-color-red"
+        (click)="onReject()"
+        nz-button
+      >
+        Reject
+      </button>
+      <button nz-button (click)="clear()">Clear</button>
+    </div>
+  </div> -->
+  <div class="footer-content flex justify-between items-center">
+    <div class="flex justify-center w-full">
+      <nz-pagination [nzTotal]="totalItems" [(nzPageSize)]="pageSize" [(nzPageIndex)]="currentPage"
+        (nzPageIndexChange)="nzPageIndexChange($event)" (nzPageSizeChange)="nzPageSizeChange($event)" nzShowSizeChanger>
+      </nz-pagination>
+    </div>
+
+    <div class="button flex space-x-4" *ngIf="tableConfig.footerButton">
+      <button nz-button
+        class="hover:bg-npst-support-color-green hover:text-npst-header-icon-white hover:border-none border-npst-support-color-green text-npst-support-color-green"
+        (click)="onApprove()">
+        Approve
+      </button>
+      <button
+        class="hover:bg-npst-support-color-red hover:text-npst-header-icon-white hover:border-none border-npst-support-color-red text-npst-support-color-red"
+        (click)="onReject()" nz-button>
+        Reject
+      </button>
+      <button nz-button (click)="clear()">Clear</button>
+    </div>
+  </div>
+</ng-template>
