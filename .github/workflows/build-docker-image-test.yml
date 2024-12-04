@@ -1,0 +1,85 @@
+name: Build Docker Image
+
+on:
+  push:
+    tags:
+      - 'v*.*.*-test'
+
+#TOKEN_GITHUB
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Generate Docker metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+
+            ghcr.io/${{ github.repository }}
+
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+          flavor: |
+            latest=true
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.TOKEN_GITHUB }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        env:
+          DOCKER_BUILDKIT: 1
+        with:
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  # eMail:
+  #   needs: docker
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: Dump GitHub context
+  #       env:
+  #         GITHUB_CONTEXT: ${{ toJson(github) }}
+  #       run: echo "$GITHUB_CONTEXT"
+
+  #     - name: Send eMail
+  #       uses: fjogeleit/http-request-action@v1
+  #       with:
+  #         url: '${{secrets.EMAIL_URL}}'
+  #         method: 'POST'
+  #         customHeaders: '{"Content-Type": "application/json"}'
+  #         data: '[
+  #             {
+  #                   "name":"sendEmail",
+  #                   "opts": {
+  #                       "priority" : 1
+  #                     },
+  #                   "data": {
+  #                       "to": "${{secrets.TO_MAIL}}",
+  #                 "from":"info@timepayx.com",
+  #                 "subject":"New build Deployed",
+  #                 "html":" <h1> ${{ github.event.head_commit.message }} </h1> <br/> <p> https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}</p> "
+  #                   }
+  #               }
+  #           ]'
