@@ -24,7 +24,7 @@ export class SoundboxDetailsComponent implements OnInit {
       code: 'action',
       listOfAction: [
         { label: 'Initiate Delink', action: 'showConfirm' },
-        { label: 'Initiate Return', action: 'initiateReturn' },
+        { label: 'Initiate Return', action: 'showRetiurnDelinkConfirm' },
       ],
     },
   ];
@@ -43,7 +43,7 @@ export class SoundboxDetailsComponent implements OnInit {
     private modal: NzModalService,
     private fb: FormBuilder,
     private message: NzMessageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.remarkForm = this.fb.group({
@@ -51,7 +51,7 @@ export class SoundboxDetailsComponent implements OnInit {
     });
     this.dataList = this.generateData();
   }
-
+  
   generateData() {
     const data = [];
     for (let i = 1; i <= 10; i++) {
@@ -65,9 +65,9 @@ export class SoundboxDetailsComponent implements OnInit {
         branch: `Mumbai. ${Math.floor(Math.random() * 1000)}`,
         uploadedOn: `${new Date(
           new Date(2020, 0, 1).getTime() +
-            Math.random() *
-              (new Date(2024, 11, 31).getTime() -
-                new Date(2020, 0, 1).getTime())
+          Math.random() *
+          (new Date(2024, 11, 31).getTime() -
+            new Date(2020, 0, 1).getTime())
         )}`,
         deviceStatus: 'failed',
         expand: false,
@@ -83,8 +83,48 @@ export class SoundboxDetailsComponent implements OnInit {
   }
 
   initiateReturn(data) {
-    console.log(data);
+
+    if (this.remarkForm.valid) {
+      this.dataList = this.dataList.filter((x) => x.deviceId != data.deviceId);
+      this.message.create('success', 'Device return Succesfully!');
+    } else {
+      Object.values(this.remarkForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
+
+
+
+  showRetiurnDelinkConfirm(data) {
+    this.modal.confirm({
+      nzTitle: '<i>Do you Want to Return the Device?</i>',
+      nzContent: this.templateRef,
+      nzOnOk: () => {
+        return new Promise((resolve, reject) => {
+          if (this.remarkForm.valid) {
+            this.initiateReturn(data); // Proceed if the form is valid
+            resolve(true); // Close the modal
+          } else {
+            Object.values(this.remarkForm.controls).forEach((control) => {
+              if (control.invalid) {
+                control.markAsDirty();
+                control.updateValueAndValidity({ onlySelf: true });
+              }
+            });
+            reject(false);
+          }
+        });
+      },
+      nzOkText: 'Submit',
+      nzCentered: true,
+    });
+  }
+
+
 
   showConfirm(data): void {
     this.modal.confirm({

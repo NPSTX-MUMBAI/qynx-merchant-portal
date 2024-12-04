@@ -1,34 +1,24 @@
 <nz-tabset>
   <nz-tab nzTitle="VPA Details">
-    <app-data-table
-      ngSkipHydration
-      [headerList]="header"
-      [dataList]="vpaData"
-      [tableConfig]="tableConfig"
-      (actionTrigger)="functionHandler($event.event)"
-    ></app-data-table>
+    <app-data-table ngSkipHydration [headerList]="header" [dataList]="vpaData" [tableConfig]="tableConfig"
+      (actionTrigger)="functionHandler($event.event)"></app-data-table>
 
-    <nz-modal
-      [nzWidth]="700"
-      [(nzVisible)]="isVisible"
-      nzTitle="Upload VPA"
-      (nzOnCancel)="handleCancel()"
-      (nzOnOk)="handleOk()"
-      [nzFooter]="null"
-    >
+    <nz-modal [nzWidth]="700" [(nzVisible)]="isVisible" nzTitle="Upload VPA" (nzOnCancel)="handleCancel()"
+      (nzOnOk)="handleOk()" [nzFooter]="null">
       <ng-container *nzModalContent>
         <app-add-vpa></app-add-vpa>
       </ng-container>
     </nz-modal>
   </nz-tab>
   <nz-tab nzTitle="File History">
-    <app-data-table
-      ngSkipHydration
-      [headerList]="fileHistoryHeader"
-      [dataList]="fileHistoryData"
-      [tableConfig]="fileTableConfig"
-      (actionTrigger)="functionHandler($event.event)"
-    ></app-data-table>
+    <app-data-table ngSkipHydration [headerList]="fileHistoryHeader" [dataList]="fileHistoryData"
+      [tableConfig]="fileTableConfig" (actionTrigger)="functionHandler($event.event)"></app-data-table>
+  </nz-tab>
+
+  <nz-tab nzTitle="Approve  Request">
+
+    <app-data-table [headerList]="approveRequestApprove" [dataList]="listOfRequest"
+      [tableConfig]="approveTableConfig"></app-data-table>
   </nz-tab>
 </nz-tabset>
 

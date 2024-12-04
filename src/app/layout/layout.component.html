@@ -1,19 +1,11 @@
-<nz-layout class="h-full">
-  <nz-sider
-    [nzWidth]="250"
-    nzCollapsible
-    [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null"
-    class="shadow-xl"
-  >
+<nz-layout>
+  <nz-sider [nzWidth]="250" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzCollapsedWidth]="200" [nzBreakpoint]="'lg'"
+    [nzTrigger]="null" class="shadow-xl">
     <div class="flex justify-center p-4">
-      <img [src]="!isCollapsed ? appLogo : npstTlogo" class="h-12" />
+      <img [src]="!isCollapsed ? appLogo : appLogo" class="h-12" />
     </div>
 
-    <div
-      class="overflow-y-auto sidemenu"
-      style="scrollbar-width: none; -ms-overflow-style: none"
-    >
+    <div class="overflow-y-auto sidemenu" style="scrollbar-width: none; -ms-overflow-style: none">
       <ul nz-menu nzMode="inline">
         <ng-container *ngFor="let item of jsonData">
           <ng-container [ngSwitch]="item.type">
@@ -25,25 +17,11 @@
                     <ng-container [ngSwitch]="subItem.type">
                       <!-- Nested Submenu -->
                       <ng-container *ngSwitchCase="'submenu'">
-                        <li
-                          nz-submenu
-                          [nzTitle]="subItem.label"
-                          [nzIcon]="subItem.icon"
-                        >
+                        <li nz-submenu [nzTitle]="subItem.label" [nzIcon]="subItem.icon">
                           <ul>
-                            <ng-container
-                              *ngFor="let subsubItem of subItem.children"
-                            >
-                              <li
-                                nz-menu-item
-                                routerLinkActive="active"
-                                [routerLink]="subsubItem.path"
-                              >
-                                <i
-                                  nz-icon
-                                  [nzType]="subsubItem.icon"
-                                  nzTheme="outline"
-                                ></i>
+                            <ng-container *ngFor="let subsubItem of subItem.children">
+                              <li nz-menu-item routerLinkActive="active" [routerLink]="subsubItem.path">
+                                <i nz-icon [nzType]="subsubItem.icon" nzTheme="outline"></i>
                                 <span>{{ subsubItem.label }}</span>
                               </li>
                             </ng-container>
@@ -52,16 +30,8 @@
                       </ng-container>
                       <!-- Submenu Item -->
                       <ng-container *ngSwitchDefault>
-                        <li
-                          nz-menu-item
-                          routerLinkActive="active"
-                          [routerLink]="subItem.path"
-                        >
-                          <i
-                            nz-icon
-                            [nzType]="subItem.icon"
-                            nzTheme="outline"
-                          ></i>
+                        <li nz-menu-item routerLinkActive="active" [routerLink]="subItem.path">
+                          <i nz-icon [nzType]="subItem.icon" nzTheme="outline"></i>
                           <span>{{ subItem.label }}</span>
                         </li>
                       </ng-container>
@@ -72,11 +42,7 @@
             </ng-container>
             <!-- For Menu Item -->
             <ng-container *ngSwitchDefault>
-              <li
-                nz-menu-item
-                [routerLink]="item.path"
-                routerLinkActive="active"
-              >
+              <li nz-menu-item [routerLink]="item.path" routerLinkActive="active">
                 <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>
                 <span>{{ item.label }}</span>
               </li>
@@ -86,31 +52,21 @@
       </ul>
     </div>
 
-    <div
-      class="flex items-center gap-3 pl-3 pb-2 pt-1.5 "
-    >
-    <p class="pt-2 font-ubuntu ">Powered by </p>
-      <img class="h-8 pt-1" [src]="npstTlogo" />
+    @if (!isCollapsed)
+    {
+    <div class="flex items-center gap-2 pl-3 pb-2 pt-1.5 ">
+      <p class="pt-2 font-ubuntu ">Powered by </p>
+      <img class="h-8 pt-1" [src]=" npstTlogo" />
     </div>
+    }
   </nz-sider>
-  <nz-layout class="right-layout">
+  <nz-layout class="right-layout  h-screen">
     <nz-header class="flex justify-between">
-      <span
-        class="trigger text-npst-header-icon-white"
-        nz-icon
-        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="isCollapsed = !isCollapsed"
-      ></span>
+      <span class="trigger text-npst-header-icon-white" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"></span>
 
-      <span
-        class="trigger text-npst-header-icon-white"
-        nz-icon
-        nzType="profile"
-        nz-dropdown
-        [nzDropdownMenu]="menu"
-        [nzTrigger]="'click'"
-        nzTheme="outline"
-      ></span>
+      <span class="trigger text-npst-header-icon-white" nz-icon nzType="profile" nz-dropdown [nzDropdownMenu]="menu"
+        [nzTrigger]="'click'" nzTheme="outline"></span>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzMode="inline">
           <li nz-menu-item routerLink="profile">
@@ -137,16 +93,11 @@
         <nz-breadcrumb-item>Dashboard</nz-breadcrumb-item>
       </nz-breadcrumb>
 
-      <div
-        class="inner-content h-full overflow-y-auto"
-        style="scrollbar-width: 1px; -ms-overflow-style: none"
-      >
+      <div class="inner-content h-full overflow-y-auto" style="scrollbar-width: 1px; -ms-overflow-style: none">
         <!-- <nz-empty [nzNotFoundContent]="null"></nz-empty> -->
         <router-outlet></router-outlet>
       </div>
     </nz-content>
-    <nz-footer class="invisible"
-      >Ant Design ©2020 Implement By Angular</nz-footer
-    >
+    <nz-footer class="invisible">Ant Design ©2020 Implement By Angular</nz-footer>
   </nz-layout>
 </nz-layout>

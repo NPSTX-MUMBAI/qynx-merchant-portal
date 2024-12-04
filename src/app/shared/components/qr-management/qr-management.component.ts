@@ -17,7 +17,7 @@ export class QRManagementComponent implements OnInit {
     { label: 'VPA', code: 'vpa' },
     { label: 'Mobile Number', code: 'mobileNo' },
     { label: 'Branch', code: 'branch' },
-    { label: 'Assigned Device', code: 'status' },
+    { label: 'Assigned Device', code: 'assignDevice' },
     { label: 'Status', code: 'status' },
     {
       label: 'Action',
@@ -62,7 +62,7 @@ export class QRManagementComponent implements OnInit {
     private modal: NzModalService,
     private fb: FormBuilder,
     private message: NzMessageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.disableQrRemark = this.fb.group({
@@ -89,7 +89,7 @@ export class QRManagementComponent implements OnInit {
     this.isVisible = false;
   }
 
-  handleOk() {}
+  handleOk() { }
 
   functionHandler(action, data) {
     if (typeof this[action] === 'function') {
@@ -113,11 +113,12 @@ export class QRManagementComponent implements OnInit {
         branch: `Mumbai ${Math.floor(Math.random() * 1000)} `,
         uploadedOn: `${new Date(
           new Date(2020, 0, 1).getTime() +
-            Math.random() *
-              (new Date(2024, 11, 31).getTime() -
-                new Date(2020, 0, 1).getTime())
+          Math.random() *
+          (new Date(2024, 11, 31).getTime() -
+            new Date(2020, 0, 1).getTime())
         )}`,
-        status: 'YES',
+        status: 'success',
+        assignDevice: 'YES',
         expand: false,
       });
     }

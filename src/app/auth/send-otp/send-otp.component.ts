@@ -18,10 +18,11 @@ export class SendOtpComponent implements OnInit {
   otpForm: FormGroup;
   npstLogo = NpstImage.qynxLogo;
   otpValue: any;
+  verifyOtpBtn: boolean = true
   otpOptions: NgxOtpInputComponentOptions = {
     otpLength: 4,
   };
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.otpForm = this.fb.group({
@@ -39,12 +40,24 @@ export class SendOtpComponent implements OnInit {
   }
 
   verifyOTP() {
-    if (this.otpValue.length == 4) {
+    if (this.otpValue?.length == 4) {
       console.log(this.otpValue);
       this.router.navigate(['/auth/reset-password']);
     }
   }
-  changeOtp(event) {
+  otpComplete(event) {
     this.otpValue = event;
+  }
+  otpChange(otp) {
+    let otpString = otp.join('')
+    if (otpString.length == 4) {
+      this.verifyOtpBtn = false
+    } else {
+      this.verifyOtpBtn = true
+    }
+
+
+
+
   }
 }

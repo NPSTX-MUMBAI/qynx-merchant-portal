@@ -18,12 +18,8 @@
     </div>
 
     <div *ngIf="tableConfig.filter" nz-col nzSpan="4">
-      <nz-select
-        [(ngModel)]="selectSearch"
-        (ngModelChange)="onDetailsChange($event)"
-        nzPlaceHolder="Please select an Filter"
-        class="w-full"
-      >
+      <nz-select [(ngModel)]="selectSearch" (ngModelChange)="onDetailsChange($event)"
+        nzPlaceHolder="Please select an Filter" class="w-full">
         <nz-option nzLabel="Merchant" nzValue="merchant"></nz-option>
         <nz-option nzLabel="VPA" nzValue="vpa"></nz-option>
         <nz-option nzLabel="Mobile Number" nzValue="mobileNo"></nz-option>
@@ -31,22 +27,12 @@
     </div>
 
     <div *ngIf="tableConfig.filter" nz-col nzSpan="4">
-      <input
-        [(ngModel)]="selectSearchValue"
-        nz-input
-        [placeholder]="'Search ' + selectSearch | titlecase"
-        class="w-full"
-      />
+      <input [(ngModel)]="selectSearchValue" nz-input [placeholder]="'Search ' + selectSearch | titlecase"
+        class="w-full" (input)="restrictCharacters($event)" />
     </div>
 
     <div *ngIf="tableConfig.filter" nz-col nzSpan="4">
-      <nz-select
-        nzShowSearch
-        nzAllowClear
-        nzPlaceHolder="Branch Name"
-        [(ngModel)]="selectBranch"
-        class="w-full"
-      >
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Branch Name" [(ngModel)]="selectBranch" class="w-full">
         <nz-option nzCustomContent nzLabel="Thane" nzValue="Thane">
           Thane
         </nz-option>
@@ -69,30 +55,23 @@
     </div>
 
     <div *ngIf="tableConfig.filter" nz-col nzSpan="4">
-      <nz-select
-        [(ngModel)]="selectedDate"
-        (ngModelChange)="dateFilterChnage($event)"
-        nzPlaceHolder="Date"
-        class="w-full"
-      >
+      <nz-select [(ngModel)]="selectedDate" (ngModelChange)="dateFilterChnage($event)" nzPlaceHolder="Date"
+        class="w-full">
         <nz-option nzLabel="Today" nzValue="today"></nz-option>
         <nz-option nzLabel="Yesterday" nzValue="yesterday"></nz-option>
         <nz-option nzLabel="This week" nzValue="thisWeek"></nz-option>
         <nz-option nzLabel="This Month" nzValue="thisMonth"></nz-option>
-        <nz-option
-          nzLabel="Custom – From & To Date"
-          nzValue="custom"
-        ></nz-option>
+        <nz-option nzLabel="Custom – From & To Date" nzValue="custom"></nz-option>
       </nz-select>
     </div>
     <div *ngIf="tableConfig.filter && showCustomDate" nz-col nzSpan="4">
-      <ng-container>
+      <ng-template #datePicker>
         <nz-range-picker class="w-full"></nz-range-picker>
-      </ng-container>
+      </ng-template>
     </div>
 
     <div *ngIf="tableConfig.filter" nz-col nzSpan="1">
-      <button nzType="primary" class="w-full" nz-button (click)="export()">
+      <button nzType="primary" class="w-full" nz-button (click)="search()">
         <span nz-icon nzType="search" nzTheme="outline"></span>
       </button>
     </div>
@@ -115,39 +94,22 @@
 </ng-template>
 
 <div>
-  <nz-table
-    #dynamicTable
-    [nzScroll]="{
-      x: tableConfig.scrollX ?? '100vw',
-      y: tableConfig?.scrollY ?? '398px'
-    }"
-    [nzData]="listOfData"
-    [nzTableLayout]="settingValue.tableLayout"
-    [nzBordered]="settingValue.bordered"
-    [nzSimple]="settingValue.simple"
-    [nzLoading]="settingValue.loading"
-    [nzPaginationType]="settingValue.paginationType"
-    [nzPaginationPosition]="settingValue.position"
-    [nzShowSizeChanger]="settingValue.sizeChanger"
-    [nzFrontPagination]="settingValue.pagination"
-    [nzShowPagination]="settingValue.pagination"
-    [nzTitle]="settingValue.title ? headerTemplate : null"
-    [nzSize]="settingValue.size"
-    [nzFooter]="settingValue.footer ? footerTemplate : null"
-    (nzCurrentPageDataChange)="currentPageDataChange($event)"
-  >
+  <nz-table #dynamicTable [nzScroll]="{
+      x: scrollX,
+      y: scrollY ?? '300px'
+    }" [nzData]="listOfData" [nzTableLayout]="settingValue.tableLayout" [nzBordered]="settingValue.bordered"
+    [nzSimple]="settingValue.simple" [nzLoading]="settingValue.loading" [nzPaginationType]="settingValue.paginationType"
+    [nzPaginationPosition]="settingValue.position" [nzShowSizeChanger]="settingValue.sizeChanger"
+    [nzFrontPagination]="settingValue.pagination" [nzShowPagination]="settingValue.pagination"
+    [nzTitle]="settingValue.title ? headerTemplate : null" [nzSize]="settingValue.size"
+    [nzFooter]="settingValue.footer ? footerTemplate : null" (nzCurrentPageDataChange)="currentPageDataChange($event)">
     <thead>
       <tr>
         @for(header of headerList ; track header){
         <ng-container [ngSwitch]="header.code">
           <ng-container *ngSwitchCase="'checkbox'">
-            <th
-              nzWidth="60px"
-              [(nzChecked)]="allChecked"
-              [nzLeft]="fixedColumn"
-              [nzIndeterminate]="indeterminate"
-              (nzCheckedChange)="checkAll($event)"
-            ></th>
+            <th nzWidth="60px" [(nzChecked)]="allChecked" [nzLeft]="fixedColumn" [nzIndeterminate]="indeterminate"
+              (nzCheckedChange)="checkAll($event)"></th>
           </ng-container>
           <ng-container *ngSwitchDefault>
             <th [nzLeft]="fixedColumn">
@@ -185,31 +147,17 @@
         <ng-container *ngFor="let ref of headerList">
           <ng-container [ngSwitch]="ref.code">
             <ng-container *ngSwitchCase="'checkbox'">
-              <td
-                [nzLeft]="fixedColumn"
-                [(nzChecked)]="data.checked"
-                (nzCheckedChange)="refreshStatus()"
-              ></td>
+              <td [nzLeft]="fixedColumn" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
             </ng-container>
             <ng-container *ngSwitchCase="'action'">
               <td [nzLeft]="fixedColumn">
-                <button
-                  nz-button
-                  nz-dropdown
-                  [nzTrigger]="'click'"
-                  [nzDropdownMenu]="menu"
-                  nzShape="circle"
-                >
+                <button nz-button nz-dropdown [nzTrigger]="'click'" [nzDropdownMenu]="menu" nzShape="circle">
                   <span nz-icon nzType="ellipsis" nzTheme="outline"></span>
                 </button>
 
                 <nz-dropdown-menu #menu="nzDropdownMenu">
                   <ul nz-menu>
-                    <li
-                      *ngFor="let item of ref.listOfAction"
-                      nz-menu-item
-                      (click)="menuClick(item.action, data)"
-                    >
+                    <li *ngFor="let item of ref.listOfAction" nz-menu-item (click)="menuClick(item.action, data)">
                       <a>{{ item.label }}</a>
                     </li>
                   </ul>
@@ -227,15 +175,23 @@
             </ng-container>
             <ng-container *ngSwitchCase="'status'">
               <td>
-                <nz-tag
-                  [nzColor]="
+                <nz-tag [nzColor]="
                     data[ref.code] == 'success'
                       ? 'green'
                       : data[ref.code] == 'YES'
                       ? 'green'
                       : 'red'
-                  "
-                  >{{ data[ref.code] }}
+                  ">{{ data[ref.code] }}
+                </nz-tag>
+              </td>
+            </ng-container>
+            <ng-container *ngSwitchCase="'assignDevice'">
+              <td>
+                <nz-tag [nzColor]="
+                  data[ref.code] == 'YES'
+                      ? 'green'
+                      : 'red'
+                  ">{{ data[ref.code] }}
                 </nz-tag>
               </td>
             </ng-container>
@@ -251,26 +207,16 @@
   </nz-table>
 </div>
 
-<nz-drawer
-  [nzBodyStyle]="{ overflow: 'auto' }"
-  [nzMaskClosable]="false"
-  [nzWidth]="400"
-  [nzVisible]="visible"
-  nzTitle="Filter"
-  [nzFooter]="footerTpl"
-  (nzOnClose)="close()"
->
+<nz-drawer [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="false" [nzWidth]="400" [nzVisible]="visible"
+  nzTitle="Filter" [nzFooter]="footerTpl" (nzOnClose)="close()">
   <div nz-form *nzDrawerContent>
     <div nz-row [nzGutter]="8">
       <div nz-col nzSpan="24">
         <label>Serach Merchant</label>
         <nz-form-item>
           <nz-form-control>
-            <nz-select
-              [(ngModel)]="selectSearch"
-              (ngModelChange)="onDetailsChange($event)"
-              nzPlaceHolder="Please select an Filter"
-            >
+            <nz-select [(ngModel)]="selectSearch" (ngModelChange)="onDetailsChange($event)"
+              nzPlaceHolder="Please select an Filter">
               <nz-option nzLabel="Merchant" nzValue="merchant"></nz-option>
               <nz-option nzLabel="VPA" nzValue="vpa"></nz-option>
               <nz-option nzLabel="Mobile Number" nzValue="mobileNo"></nz-option>
@@ -286,11 +232,7 @@
         <label>{{ selectSearch | titlecase }}</label>
         <nz-form-item>
           <nz-form-control>
-            <input
-              [(ngModel)]="selectSearchValue"
-              nz-input
-              placeholder="please enter Search Value"
-            />
+            <input [(ngModel)]="selectSearchValue" nz-input placeholder="please enter Search Value" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -302,11 +244,7 @@
         <label>Branch Name</label>
         <nz-form-item>
           <nz-form-control>
-            <input
-              [(ngModel)]="selectBranch"
-              nz-input
-              placeholder="Branch name"
-            />
+            <input [(ngModel)]="selectBranch" nz-input placeholder="Branch name" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -316,19 +254,13 @@
         <label>Date</label>
         <nz-form-item>
           <nz-form-control>
-            <nz-select
-              [(ngModel)]="selectedDate"
-              (ngModelChange)="dateFilterChnage($event)"
-              nzPlaceHolder="Please choose the type"
-            >
+            <nz-select [(ngModel)]="selectedDate" (ngModelChange)="dateFilterChnage($event)"
+              nzPlaceHolder="Please choose the type">
               <nz-option nzLabel="Today" nzValue="today"></nz-option>
               <nz-option nzLabel="Yesterday" nzValue="yesterday"></nz-option>
               <nz-option nzLabel="This week" nzValue="thisWeek"></nz-option>
               <nz-option nzLabel="This Month" nzValue="thisMonth"></nz-option>
-              <nz-option
-                nzLabel="Custom – From & To Date"
-                nzValue="custom"
-              ></nz-option>
+              <nz-option nzLabel="Custom – From & To Date" nzValue="custom"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -391,30 +323,20 @@
   </div> -->
   <div class="footer-content flex justify-between items-center">
     <div class="flex justify-center w-full">
-      <nz-pagination
-        [nzTotal]="totalItems"
-        [(nzPageSize)]="pageSize"
-        [(nzPageIndex)]="currentPage"
-        (nzPageIndexChange)="nzPageIndexChange($event)"
-        (nzPageSizeChange)="nzPageSizeChange($event)"
-        nzShowSizeChanger
-      >
+      <nz-pagination [nzTotal]="totalItems" [(nzPageSize)]="pageSize" [(nzPageIndex)]="currentPage"
+        (nzPageIndexChange)="nzPageIndexChange($event)" (nzPageSizeChange)="nzPageSizeChange($event)" nzShowSizeChanger>
       </nz-pagination>
     </div>
 
     <div class="button flex space-x-4" *ngIf="tableConfig.footerButton">
-      <button
-        nz-button
+      <button nz-button
         class="hover:bg-npst-support-color-green hover:text-npst-header-icon-white hover:border-none border-npst-support-color-green text-npst-support-color-green"
-        (click)="onApprove()"
-      >
+        (click)="onApprove()">
         Approve
       </button>
       <button
         class="hover:bg-npst-support-color-red hover:text-npst-header-icon-white hover:border-none border-npst-support-color-red text-npst-support-color-red"
-        (click)="onReject()"
-        nz-button
-      >
+        (click)="onReject()" nz-button>
         Reject
       </button>
       <button nz-button (click)="clear()">Clear</button>

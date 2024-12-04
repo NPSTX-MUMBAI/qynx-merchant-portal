@@ -11,7 +11,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { SendOtpComponent } from './send-otp/send-otp.component';
 import { NgxOtpInputComponent } from 'ngx-otp-input';
-
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { AuthService } from '../api-service/auth.service';
 const route: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: LoginComponent },
@@ -35,8 +36,11 @@ const route: Routes = [
     NzButtonModule,
     NzCheckboxModule,
     NgxOtpInputComponent,
+    NzIconModule,
     FormsModule,
+
   ],
+
   exports: [ResetPasswordComponent],
 })
-export class AuthModule {}
+export class AuthModule { }

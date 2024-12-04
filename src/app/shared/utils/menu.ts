@@ -6,24 +6,12 @@ export class Menu {
         label: 'Merchant Management',
         path: 'all-vpa',
         icon: 'setting',
-        // children: [
-        //   {
-        //     path: 'all-vpa',
-        //     label: 'VPA Management',
-        //     icon: 'pic-right',
-        //   },
-        //   {
-        //     path: 'approve-request',
-        //     label: 'Approve Request',
-        //     icon: 'check-circle',
-        //   },
-        // ],
       },
-      {
-        path: 'approve-request',
-        label: 'Approve Request',
-        icon: 'check-circle',
-      },
+      // {
+      //   path: 'approve-request',
+      //   label: 'Approve Request',
+      //   icon: 'check-circle',
+      // },
       {
         label: 'QR Management',
         path: 'qr-management',
@@ -37,27 +25,12 @@ export class Menu {
 
         // ],
       },
-      {
-        path: 'qr-request',
-        label: 'Approve QR Request',
-        icon: 'check-circle',
-      },
+
       {
         label: 'Inventory Management  ',
-        type: 'submenu',
         icon: 'account-book',
-        children: [
-          {
-            path: 'soundbox',
-            label: 'Soundbox Management',
-            icon: 'code-sandbox',
-          },
-          {
-            path: 'soundbox-request',
-            label: 'Approve  Request',
-            icon: 'check-circle',
-          },
-        ],
+        path: 'soundbox',
+
       },
 
       {

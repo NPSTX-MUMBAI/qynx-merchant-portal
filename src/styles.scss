@@ -20,12 +20,12 @@ html {
   --ant-primary-7: var(--primary-7);
 }
 
-ngx-otp-input {
-  .ngx-otp-input-form {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
+
+.ngx-otp-input-form {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
 }
 
 .ngx-otp-input-box {
@@ -58,11 +58,3 @@ ngx-otp-input {
   @apply bg-npst_header_color;
   @apply text-npst_text_color;
 }
-
-// .ant-btn {
-//   @apply text-npst_text_color;
-// }
-
-// .ant-form-item-explain-error {
-//   @apply text-npst_error_color;
-// }

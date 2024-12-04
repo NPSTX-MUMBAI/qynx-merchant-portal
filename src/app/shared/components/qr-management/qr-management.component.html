@@ -1,42 +1,28 @@
 <nz-tabset>
   <nz-tab nzTitle="QR Details">
-    <app-data-table
-      ngSkipHydration
-      [headerList]="header"
-      (actionTrigger)="functionHandler($event.action, $event.data)"
-      [dataList]="dataList"
-      [tableConfig]="tableConfig"
-    ></app-data-table>
+    <app-data-table ngSkipHydration [headerList]="header" (actionTrigger)="functionHandler($event.action, $event.data)"
+      [dataList]="dataList" [tableConfig]="tableConfig"></app-data-table>
   </nz-tab>
   <nz-tab nzTitle="Disable QR">
-    <app-data-table
-      ngSkipHydration
-      [headerList]="disableQrHeader"
-      (actionTrigger)="functionHandler($event.action, $event.data)"
-      [dataList]="dataList"
-      [tableConfig]="tableConfig"
-    ></app-data-table>
+    <app-data-table ngSkipHydration [headerList]="disableQrHeader"
+      (actionTrigger)="functionHandler($event.action, $event.data)" [dataList]="dataList"
+      [tableConfig]="tableConfig"></app-data-table>
+  </nz-tab>
+
+
+  <nz-tab nzTitle="Approve QR Request">
+    <app-approve-qr-request></app-approve-qr-request>
   </nz-tab>
 </nz-tabset>
 
-<nz-modal
-  [(nzVisible)]="isVisible"
-  nzTitle="QR Code"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()"
-  [nzStyle]="{ display: 'flex', 'justify-content': 'center' }"
-  [nzFooter]="null"
->
+<nz-modal [(nzVisible)]="isVisible" nzTitle="QR Code" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+  [nzStyle]="{ display: 'flex', 'justify-content': 'center' }" [nzFooter]="null">
   <ng-container *nzModalContent>
     <div class="flex justify-center qr-container">
       <img [src]="qrTemplate" class="background-image" />
-      <nz-qrcode
-        nzValue="upi://pay?pa=sudeshsurve217541-1@okicici&pn=sudesh%20Surve&aid=uGICAgMCy7sCNHA"
+      <nz-qrcode nzValue="upi://pay?pa=sudeshsurve217541-1@okicici&pn=sudesh%20Surve&aid=uGICAgMCy7sCNHA"
         nzIcon="https://img.alicdn.com/imgextra/i2/O1CN01TBIkzL1Nk3IBB0DLA_!!6000000001607-2-tps-106-120.png"
-        nzLevel="H"
-        [nzSize]="180"
-        class="centered-qrcode"
-      ></nz-qrcode>
+        nzLevel="H" [nzSize]="180" class="centered-qrcode"></nz-qrcode>
     </div>
   </ng-container>
 </nz-modal>
@@ -45,12 +31,7 @@
   <form [formGroup]="disableQrRemark">
     <label>Remark <span class="text-npst-support-color-red">*</span></label>
     <nz-form-control nzErrorTip="Remark is Required">
-      <textarea
-        formControlName="remark"
-        placeholder="Remark"
-        rows="4"
-        nz-input
-      ></textarea>
+      <textarea formControlName="remark" placeholder="Remark" rows="4" nz-input></textarea>
     </nz-form-control>
   </form>
 </ng-template>

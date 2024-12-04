@@ -1,11 +1,17 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
+  ViewChild,
+  viewChildren,
+
 } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { log } from 'console';
@@ -58,12 +64,14 @@ interface Setting {
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataTableComponent implements OnInit {
   @Input() headerList: any[];
   @Input() dataList: any[] = [];
   @Input() tableConfig: any;
   @Output() actionTrigger = new EventEmitter();
+  @ViewChild('datePicker', { static: false }) datePicker
 
   settingForm: FormGroup<{ [K in keyof Setting]: FormControl<Setting[K]> }>;
   listOfData: readonly ItemData[] = [];
@@ -71,8 +79,8 @@ export class DataTableComponent implements OnInit {
   allChecked = false;
   indeterminate = true;
   fixedColumn = false;
-  scrollX: string | null = '100vw';
-  scrollY: string | null = null;
+  scrollX: string | null = '100vh';
+  scrollY: string | null = '300px';
   settingValue: Setting;
   date: any;
   listOfSwitch = [
@@ -162,9 +170,9 @@ export class DataTableComponent implements OnInit {
     this.refreshStatus();
   }
 
-  export() {}
+  export() { }
 
-  onChange(event) {}
+  onChange(event) { }
 
   refreshStatus(): void {
     const validData = this.displayData.filter((value) => !value.disabled);
@@ -187,7 +195,7 @@ export class DataTableComponent implements OnInit {
 
   generateData(): readonly ItemData[] {
     const data = [];
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 20; i++) {
       data.push({
         merchanName: `NPST Merchant ${i * 2}`,
         vpa: `${i}2`,
@@ -201,9 +209,9 @@ export class DataTableComponent implements OnInit {
         branch: `New York No. ${Math.floor(Math.random() * 1000)} Lake Park`,
         uploadedOn: `${new Date(
           new Date(2020, 0, 1).getTime() +
-            Math.random() *
-              (new Date(2024, 11, 31).getTime() -
-                new Date(2020, 0, 1).getTime())
+          Math.random() *
+          (new Date(2024, 11, 31).getTime() -
+            new Date(2020, 0, 1).getTime())
         )}`,
         status: 'failed',
         expand: false,
@@ -212,9 +220,19 @@ export class DataTableComponent implements OnInit {
     return data;
   }
 
-  constructor(private formBuilder: NonNullableFormBuilder) {}
+  constructor(private formBuilder: NonNullableFormBuilder) { }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    const screenWidth = event.target.innerWidth;
+    const screenHeight = event.target.innerHeight;
+    this.updateScroll(screenWidth, screenHeight);
+  }
+
+
+
 
   ngOnInit(): void {
+    this.updateScroll(window.innerWidth, window.innerHeight);
     this.settingForm = this.formBuilder.group({
       bordered: [false],
       loading: [false],
@@ -231,7 +249,7 @@ export class DataTableComponent implements OnInit {
       simple: [true],
       size: 'middle' as NzTableSize,
       paginationType: 'default' as NzTablePaginationType,
-      tableScroll: 'fixed' as TableScroll,
+      tableScroll: 'auto' as TableScroll,
       tableLayout: 'auto' as NzTableLayout,
       position: 'both' as NzTablePaginationPosition,
     });
@@ -256,6 +274,26 @@ export class DataTableComponent implements OnInit {
       }
     });
     this.listOfData = this.dataList;
+  }
+
+  updateScroll(screenWidth: number, screenHeight: number): void {
+    // Adjust horizontal scrolling
+    if (screenWidth < 576) {
+      this.scrollX = '300px'; // For small screens
+    } else if (screenWidth < 768) {
+      this.scrollX = '500px'; // For medium screens
+    } else {
+      this.scrollX = '100%'; // For larger screens
+    }
+
+    // Adjust vertical scrolling
+    if (screenHeight < 600) {
+      this.scrollY = '280px'; // For smaller viewports
+    } else if (screenHeight < 800) {
+      this.scrollY = '380px'; // For medium viewports
+    } else {
+      this.scrollY = '480px'; // For larger viewports
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -347,4 +385,18 @@ export class DataTableComponent implements OnInit {
   raiseTicket() {
     this.actionTrigger.emit({ action: 'raiseTicket' });
   }
+  restrictCharacters(event: any): void {
+    const invalidChars = /[!#$%^&*()+\-=\[\]{};':"\\|,.<>\/?]+/; // Regex for restricted characters
+    const inputElement = event.target as HTMLInputElement;
+
+    if (invalidChars.test(inputElement.value)) {
+      // Remove invalid characters
+      inputElement.value = inputElement.value.replace(invalidChars, '');
+    }
+  }
+
+  search() {
+    console.log(this.datePicker);
+  }
+
 }

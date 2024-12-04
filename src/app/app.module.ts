@@ -11,7 +11,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { DataTableComponent } from './shared/components/data-table/data-table.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_CONFIG, NzConfig } from 'ng-zorro-antd/core/config';
@@ -40,4 +39,4 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
