@@ -14,6 +14,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_CONFIG, NzConfig } from 'ng-zorro-antd/core/config';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 
@@ -30,12 +31,15 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     BrowserAnimationsModule,
     AppRoutingModule,
     NzIconModule.forRoot(icons),
+
   ],
   providers: [
     provideHttpClient(withFetch()),
     provideNzI18n(en_US),
     NzModalService,
     NzMessageService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+
   ],
   bootstrap: [AppComponent],
 })
