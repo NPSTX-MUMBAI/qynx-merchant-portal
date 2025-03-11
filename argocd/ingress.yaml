@@ -5,7 +5,7 @@ metadata:
   namespace: prod #same namespace as
 spec:
   dnsNames:
-    - qynx-merchant-portal.timepayx.com
+    - qynx-bank-portal.timepayx.com
   secretName: qynx-bank-portal-tls-cert
   issuerRef:
     name: le-clusterissuer
