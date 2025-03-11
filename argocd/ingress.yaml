@@ -1,12 +1,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: qynx-merchant-portal-cert  #name of this object
+  name: qynx-bank-portal-tls-cert  #name of this object
   namespace: prod #same namespace as
 spec:
   dnsNames:
     - qynx-merchant-portal.timepayx.com
-  secretName: qynx-merchant-portal-tls-cert
+  secretName: qynx-bank-portal-tls-cert
   issuerRef:
     name: le-clusterissuer
     kind: ClusterIssuer
